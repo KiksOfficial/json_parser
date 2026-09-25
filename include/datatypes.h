@@ -45,7 +45,7 @@ struct JSONValue {
 
 typedef struct {
   TokenType type;
-  char *value;
+  const char *value;
 } Token;
 
 typedef struct {
