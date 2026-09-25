@@ -1,0 +1,48 @@
+
+#include <stdio.h>
+#include <stdlib.h>
+
+typedef enum ValueType {
+  JSON_NULL,
+  JSON_BOOL,
+  JSON_STRING,
+  JSON_NUMBER,
+  JSON_OBJE,
+  JSON_ARRAY,
+
+} ValueType;
+
+int main(int argc, char *argv[]) {
+  if (argc < 2) {
+    printf("Not enough args");
+    return 1;
+  }
+
+  char *filename = argv[1];
+  FILE *fptr = fopen(filename, "r");
+
+  if (fptr == NULL) {
+    printf("Couldn't open file");
+    return 1;
+  }
+
+  fseek(fptr, 0, SEEK_END);
+  long file_size = ftell(fptr);
+  fseek(fptr, 0, SEEK_SET);
+
+  char *content_buff = malloc(file_size + 1);
+
+  if (content_buff == NULL) {
+    fclose(fptr);
+    return 1;
+  }
+
+  size_t byteas_read =
+      fread(content_buff, sizeof(char), sizeof(content_buff) - 1, fptr);
+  printf("%s", content_buff);
+  fclose(fptr);
+  free(content_buff);
+  content_buff = NULL;
+
+  return 0;
+}
