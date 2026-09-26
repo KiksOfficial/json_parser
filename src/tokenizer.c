@@ -4,6 +4,29 @@
 #include <stdlib.h>
 #include <string.h>
 
+int tokenize_string(const char *cursor, TokenArray token_array) {
+
+  cursor++;
+  const char *start = cursor;
+  while (*cursor != '"' && *cursor != '\0') {
+    cursor++;
+  };
+  size_t len = cursor - start;
+  char *str_val = malloc(len + 1);
+  if (str_val == NULL) {
+    return 1;
+  }
+  strncpy(str_val, start, len);
+  str_val[len] = '\0';
+  if (*cursor == '"') {
+    cursor++;
+  };
+  add_token(&cursor, &token_array,
+            (Token){.type = TOKEN_STRING, .value = str_val});
+
+  return 0;
+}
+
 void skip_whitespaces(const char **cursor) {
   while (**cursor == ' ' || **cursor == '\t' || **cursor == '\n') {
     (*cursor)++;
@@ -34,6 +57,9 @@ int main_tokenizer(const char *sisu) {
 
   while (*cursor != '\0') {
     skip_whitespaces(&cursor);
+    if (*cursor == '\0') {
+      break;
+    }
 
     char c = *cursor;
 
@@ -64,30 +90,9 @@ int main_tokenizer(const char *sisu) {
                 (Token){.type = TOKEN_COMA, .value = ","});
       break;
     case '"': {
-      cursor++;
-      const char *start = cursor;
-      while (*cursor != '"' || *cursor != '\0') {
-        cursor++;
-      };
-      size_t len = cursor - start;
-      char *str_val = malloc(len + 1);
-      if (str_val == NULL) {
-        return 1;
-      }
-      strncpy(str_val, start, len);
-      str_val[len] = '\n';
-      if (*cursor == '"') {
-        cursor++;
-      };
-      add_token(&cursor, &token_array,
-                (Token){.type = TOKEN_STRING, .value = str_val});
       break;
     }
     };
-
-    if (*cursor == '\0') {
-      break;
-    }
   };
   return 0;
 }
