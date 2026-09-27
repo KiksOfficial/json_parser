@@ -4,6 +4,7 @@
 
 void skip_whitespaces(const char **cursor);
 int main_tokenizer(const char *sisu);
-int add_token(const char **cursor, TokenArray *token_array, Token new_token);
+int add_token(TokenArray *token_array, Token new_token);
+void print_tokens(TokenArray token_array);
 
 #endif
