@@ -29,6 +29,11 @@ typedef enum TokenType {
 
 typedef struct JSONValue JSONValue;
 
+typedef struct JSONPair {
+  char *key;
+  JSONValue *value;
+} JSONPair;
+
 struct JSONValue {
   ValueType type;
   union {
@@ -41,6 +46,11 @@ struct JSONValue {
     JSONValue **items;
     size_t count;
   } array;
+
+  struct {
+    JSONPair *pairs;
+    size_t count;
+  } object;
 };
 
 typedef struct {

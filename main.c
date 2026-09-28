@@ -1,3 +1,5 @@
+#include "include/datatypes.h"
+#include "include/parser.h"
 #include "include/read_file.h"
 #include "include/tokenizer.h"
 #include <stdio.h>
@@ -8,7 +10,8 @@ int main(int argc, char *argv[]) {
     return 1;
   }
   const char *sisu = read_from_file(argv[1]);
-  main_tokenizer(sisu);
+  TokenArray tokens = main_tokenizer(sisu);
+  print_tokens(tokens);
 
   return 0;
 }

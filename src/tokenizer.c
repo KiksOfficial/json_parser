@@ -30,6 +30,10 @@ int tokenize_num(const char **cursor_ptr, TokenArray *token_array) {
     cursor++;
   };
 
+  while (isdigit(*cursor)) {
+    cursor++;
+  };
+
   if (*cursor == 'e' || *cursor == 'E') {
     cursor++;
     if (*cursor == '+' || *cursor == '-')
@@ -101,7 +105,7 @@ int add_token(TokenArray *token_array, Token new_token) {
   return 0;
 }
 
-int main_tokenizer(const char *sisu) {
+TokenArray main_tokenizer(const char *sisu) {
   const char *cursor = sisu;
   TokenArray token_array = {.items = NULL, .size = 0, .capacity = 0};
 
@@ -163,6 +167,5 @@ int main_tokenizer(const char *sisu) {
       }
     };
   };
-  print_tokens(token_array);
-  return 0;
+  return token_array;
 }
